@@ -9,7 +9,7 @@ def debug(text):
     # if isTesting:
         print(text)
 
-totinside = toteq = 0
+totinside = toteq = totoverlap = 0
 for line in lines:
     line = line[:-1]
     pairs = line.split(',')
@@ -28,9 +28,13 @@ for line in lines:
     # charpos = line2.find('-')
     # min2 = line2[0:charpos]
     # max2 = line2[charpos+1:]
-    # debug(f'{line} 1:{min1}-{max1} 2:{min2}-{max2}')
+    debug(f'{line} 1:{min1}-{max1} 2:{min2}-{max2}')
 
     first = False
+
+    if ((max1 >= min2) and (min1 <= min2)) or ((max2 >= min1) and (min2 <= min1)) :
+        totoverlap += 1
+
     if (min1 == min2 and max1 == max2):
         debug(f'{line} 1:{min1}-{max1} 2:{min2}-{max2}')
         debug('eq')
@@ -51,9 +55,9 @@ for line in lines:
             # debug('2nd pair is inside')
 
 
-
-
-
 print(f'total: {totinside}')
 print(f'total eq: {toteq}')
 print(f'total: {totinside + toteq}')
+
+print(f'total ovl: {totoverlap}')
+
