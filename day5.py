@@ -31,9 +31,17 @@ for line in lines:
         actTo = int(words[5]) - 1
         debug(f'qty:{actQty} f:{actFrom} t:{actTo}')
 
-        for i in range(actQty):
-            stacks[actTo].append(stacks[actFrom].pop())
-            debug(stacks)
+        
+        # for i in range(actQty):
+        #     stacks[actTo].append(stacks[actFrom].pop())
+        #     debug(stacks)
+        crates = stacks[actFrom][actQty * -1:]
+        stacks[actTo] += crates
+        stacks[actFrom] = stacks[actFrom][:actQty * -1]
+        debug(stacks)
+        
+
+        
             
 
 debug(stacks)
