@@ -1,10 +1,11 @@
 
 
-def day6(line):
-    for i in range(len(line)-4):
-        marker = line[i:i+4]
-        if len(set(marker)) == 4:
-            print(f'answer: {i + 4}')
+def day6(line, numchars=4):
+    
+    for i in range(len(line)-numchars):
+        marker = line[i:i+numchars]
+        if len(set(marker)) == numchars:
+            print(f'answer ({numchars}): {i + numchars}')
             break
 
 
@@ -13,6 +14,7 @@ lines = ['mjqjpqmgbljsphdztnvjfqwrcgsmlb','bvwbjplbgvbhsrlpgdmjqwftvncz','nppdvj
             open('day6.txt').readlines()[0]]
 for line in lines:
     day6(line)
+    day6(line, 14)
 
 
 
