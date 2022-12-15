@@ -1,39 +1,63 @@
-Advent of Code[About][Events][Shop][Settings][Log Out]Martin Côté 12*
-  0.0.0.0:2022[Calendar][AoC++][Sponsors][Leaderboard][Stats]
-Our sponsors help make Advent of Code possible:
-American Express - Work with the latest tech and back the engineering community through open source. Find your place in tech on #TeamAmex.
---- Day 8: Treetop Tree House ---
-The expedition comes across a peculiar patch of tall trees all planted carefully in a grid. The Elves explain that a previous expedition planted these trees as a reforestation effort. Now, they're curious if this would be a good location for a tree house.
+rawmap = open('day8.txt').read().split('\n')
+# rawmap = ['30373', '25512', '65332', '33549', '35390']
 
-First, determine whether there is enough tree cover here to keep a tree house hidden. To do this, you need to count the number of trees that are visible from outside the grid when looking directly along a row or column.
+# map = [[letter for letter in i] for i in rawmap]
+print(rawmap)
 
-The Elves have already launched a quadcopter to generate a map with the height of each tree (your puzzle input). For example:
+numvisible = 0
+for i,currow in enumerate(rawmap):
+  for j,curheight in enumerate(currow):
+    curheight = int(curheight)
+    if i == 0 or i == len(rawmap)-1:
+      #first and last rows
+      numvisible += 1
+    
+    else:
+      #middle rows
+      if j == 0 or j == len(currow)-1:
+        #first and last cols
+        numvisible += 1
+      else:
+        # middle stuff, check all other sides(left,right,top,down) until we are longer
+        #left
+        seen = True
+        # from postition to left edge
+        for k in range(j-1,-1,-1):
+          #if a tree is bigger, we're not seen anymore on this side
+          if int(rawmap[i][k]) >= curheight:
+            seen = False
+            break
 
-30373
-25512
-65332
-33549
-35390
-Each tree is represented as a single digit whose value is its height, where 0 is the shortest and 9 is the tallest.
+        if seen:
+              numvisible += 1
+        # if we're still seen, look right
+        else:
+          seen = True
+          for k in range(j+1,len(currow)):
+            if int(rawmap[i][k]) >= curheight:
+              seen = False
+              break
 
-A tree is visible if all of the other trees between it and an edge of the grid are shorter than it. Only consider trees in the same row or column; that is, only look up, down, left, or right from any given tree.
+          # if we're still seen, look up
+          if seen:
+            numvisible +=1
+          else:
+            seen = True
+            for k in range(i-1,-1, -1):
+              if int(rawmap[k][j]) >= curheight:
+                seen = False
+                break
 
-All of the trees around the edge of the grid are visible - since they are already on the edge, there are no trees to block the view. In this example, that only leaves the interior nine trees to consider:
+            if seen:
+                numvisible += 1
+            else:
+              seen = True
+              for k in range(i+1,len(rawmap)):
+                if int(rawmap[k][j]) >= curheight:
+                  seen = False
+                  break
 
-The top-left 5 is visible from the left and top. (It isn't visible from the right or bottom since other trees of height 5 are in the way.)
-The top-middle 5 is visible from the top and right.
-The top-right 1 is not visible from any direction; for it to be visible, there would need to only be trees of height 0 between it and an edge.
-The left-middle 5 is visible, but only from the right.
-The center 3 is not visible from any direction; for it to be visible, there would need to be only trees of at most height 2 between it and an edge.
-The right-middle 3 is visible from the right.
-In the bottom row, the middle 5 is visible, but the 3 and 4 are not.
-With 16 trees visible on the edge and another 5 visible in the interior, a total of 21 trees are visible in this arrangement.
+              if seen:
+                numvisible += 1
 
-Consider your map; how many trees are visible from outside the grid?
-
-To begin, get your puzzle input.
-
-Answer: 
- 
-
-You can also [Share] this puzzle.
+print(f'numvisible: {numvisible}')
