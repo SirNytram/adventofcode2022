@@ -5,9 +5,13 @@ rawmap = open('day8.txt').read().split('\n')
 print(rawmap)
 
 numvisible = 0
+bestscore = 0
+
 for i,currow in enumerate(rawmap):
   for j,curheight in enumerate(currow):
     curheight = int(curheight)
+
+    # part1
     if i == 0 or i == len(rawmap)-1:
       #first and last rows
       numvisible += 1
@@ -60,4 +64,6 @@ for i,currow in enumerate(rawmap):
               if seen:
                 numvisible += 1
 
+    # part 2
+    
 print(f'numvisible: {numvisible}')
